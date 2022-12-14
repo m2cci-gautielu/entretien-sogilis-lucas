@@ -1,14 +1,15 @@
 # TestSogilis: test/TestSogilis.o src/Sogilis.o unity/unity.o
 # 	gcc -Wall -o TestSogilis test/TestSogilis.o src/Sogilis.o unity/unity.o
 
-# TestSogilis.o: test/TestSogilis.c  src/Sogilis.h unity/unity.h
+# TestSogilis.o: test/TestSogilis.c src/Sogilis.h unity/unity.h
 # 	gcc -Wall -c test/TestSogilis.c
 
-#Sogilis.o: src/Sogilis.c
+# Sogilis.o: src/Sogilis.c
 # 	gcc -Wall -c src/Sogilis.c
 
 # unity.o: unity/unity.c
 # 	gcc -Wall -c unity/unity.c
+
 
 ifeq ($(OS),Windows_NT)
   ifeq ($(shell uname -s),) # not in a bash-like shell
@@ -45,6 +46,8 @@ LINK=gcc
 DEPEND=gcc -MM -MG -MF
 CFLAGS=-I. -I$(PATHU) -I$(PATHS) -DTEST
 
+RESULTS = $(patsubst $(PATHT)Test%.c,$(PATHR)Test%.txt,$(SRCT))
+
 PASSED = `grep -s PASS $(PATHR)*.txt`
 FAIL = `grep -s FAIL $(PATHR)*.txt`
 IGNORE = `grep -s IGNORE $(PATHR)*.txt`
@@ -57,8 +60,6 @@ test: $(BUILD_PATHS) $(RESULTS)
 	@echo "-----------------------\nPASSED:\n-----------------------"
 	@echo "$(PASSED)"
 	@echo "\nDONE"
-
-RESULTS = $(patsubst $(PATHT)Test%.c,$(PATHR)Test%.txt,$(SRCT))
 
 $(PATHR)%.txt: $(PATHB)%.$(TARGET_EXTENSION)
 	-./$< > $@ 2>&1
