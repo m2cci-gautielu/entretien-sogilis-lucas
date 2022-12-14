@@ -1,1 +1,1 @@
-int getResult();
+int getResult();  //retourne 1
